@@ -8,23 +8,30 @@
     <title>Calculadora Milan</title>
     <link rel="stylesheet" type="text/css" href="CalculadoraMilan.css" />
     <script src="CalculadoraMilan.js"></script>
+    
     <?php 
     session_start();
     class Calculadora {
 
+        protected $anterior;
+        protected $operador;
+        protected $editable;
+        protected $valor;
+        protected $memoria;
+
         public function __construct() {
-            this.anterior = null;
-            this.operador = null;
-            this.editable = false;
-            this.valor = "0";
-            this.memoria = Number(0);
+            $this->anterior = null;
+            $this->operador = null;
+            $this->editable = false;
+            $this->valor = "0";
+            $this->memoria = Number(0);
     
-            document.addEventListener('keydown', (event) => this.procesarTeclas(event));
+            // document.addEventListener('keydown', (event) => this.procesarTeclas(event));
         }
     
-        mostrarTexto() {
-            var texto = document.getElementsByTagName("input")[0];
-            texto.value = this.valor;
+        public function mostrarTexto() {
+            $texto = document.getElementsByTagName("input")[0];
+            texto.value = $this->valor;
         }
     
         digitos(value) {
