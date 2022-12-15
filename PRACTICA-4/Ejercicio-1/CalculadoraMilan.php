@@ -1,16 +1,24 @@
 <!DOCTYPE HTML>
-<html lang="es">
+<html lang='es'>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="author" content="Daniel Fernández Bernardino" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset='UTF-8' />
+    <meta name='author' content='Daniel Fernández Bernardino' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Calculadora Milan</title>
-    <link rel="stylesheet" type="text/css" href="CalculadoraMilan.css" />
-    <script src="CalculadoraMilan.js"></script>
-    
-    <?php 
+    <link rel='stylesheet' type='text/css' href='CalculadoraMilan.css' />
+</head>
+
+<?php 
     session_start();
+
+    if(!isset($_SESSION['calculadora'])) {
+        $_SESSION['calculadora'] = new Calculadora();
+        $calculadora = $_SESSION['calculadora'];
+    } else {
+        $calculadora = $_SESSION['calculadora'];
+    }
+
     class Calculadora {
 
         protected $anterior;
@@ -25,36 +33,34 @@
             $this->operador = null;
             $this->editable = false;
             $this->valor = "0";
-            $this->memoria = Number(0);
+            $this->memoria = 0;
     
-            // document.addEventListener('keydown', (event) => $this->procesarTeclas(event));
         }
     
         
         public function mostrarTexto() {
-            $texto = document.getElementsByTagName("input")[0];
-            texto.value = $this->valor;
+            return $this->valor;
         }
     
         public function digitos($value) {
     
-            if ($this->valor == "0" || $this->editable) {
-                $this->valor = "" + $value;
+            if ($this->valor == "0" || $this->editable==true) {
+                $this->valor = $value;
                 $this->editable = false;
             }
-            else
-            $this->valor += $value;
-    
-            $this->mostrarTexto();
+            else {
+                $this->valor .= $value;
+            }
         }
     
         public function punto() {
     
-            if (!$this->valor.includes("."))
-                $this->valor += ".";
+            if (strpos($this->valor, ".") ===false) {
+                    $this->valor .= ".";
+                }
     
             $this->editable = false;
-            $this->mostrarTexto();
+            
         }
     
         public function borrarTodo() {
@@ -62,13 +68,13 @@
             $this->anterior = null;
             $this->editable = true;
             $this->operador = null;
-            $this->mostrarTexto();
+            
         }
     
         public function borrar() {
             $this->valor = "0";
             $this->editable = true;
-            $this->mostrarTexto();
+            
         }
     
         public function basica($operador) {
@@ -82,13 +88,13 @@
     
             //hay numero anterior
             else {
-                $this->valor = "" + eval(Number($this->anterior) + $this->operador + Number($this->valor));
-                $this->anterior = $this->valor;
+                $eval = $this->anterior . $this->operador . $this->valor;
+                $this->valor = "" . eval("return ".$eval.";");
+                $this->anterior = null;
                 $this->editable = true;
-                $this->operador = $operador;
+                $this->operador = null;
             }
     
-            $this->mostrarTexto();
         }
     
         public function sumar() {
@@ -108,25 +114,28 @@
         }
     
         public function raiz() {
-            if (Number($this->valor) > 0) {
-                $this->valor = "" + Math.sqrt(Number($this->valor));
-                $this->editable = tru0.e;
+            $eval = eval("return ".$this->valor.";");
+            if ($eval > 0) {
+                
+                $this->valor = "".sqrt($eval);
+                $this->editable = true;
             }
-            $this->mostrarTexto();
+            
         }
     
         public function igual() {
             if ($this->anterior == null) {
-                $this->valor = "" + $this->valor;
+                $this->valor = "". $this->valor;
             }
             else {
-                $this->valor = "" + eval(Number($this->anterior) + $this->operador + Number($this->valor));
+                $eval = $this->anterior . $this->operador . $this->valor;
+                $this->valor = "". eval("return ".$eval.";");
                 $this->editable = true;
                 $this->anterior = null;
                 $this->operador = null;
             }
     
-            $this->mostrarTexto();
+            
         }
     
         public function porcentaje() {
@@ -134,170 +143,163 @@
                 $this->valor = "0";
             }
             else {
-                $percent = Number($this->valor);
-                $this->valor = "" + eval(Number($this->anterior) * $percent / 100);
+                $percent = $this->valor;
+                $eval = $this->anterior * $percent / 100;
+                $this->valor = "" . eval("return ".$eval.";");
                 $this->editable = true;
             }
     
-            $this->mostrarTexto();
+            
         }
     
         public function masMenos() {
-            $this->valor = "" + eval(Number($this->valor) + "*-1");
-            $this->mostrarTexto();
+            $eval = eval("return ".$this->valor."*-1;");
+            $this->valor = "".$eval;
+            
         }
     
         public function mrc() {
-            $this->valor = $this->memoria.toString();
+            $this->valor = "".$this->memoria;
             $this->editable = true;
-            $this->mostrarTexto();
+            
         }
     
         public function mmas() {
-            $this->memoria += Number($this->valor);
+            $this->memoria += eval("return ".$this->valor.";");
             $this->editable = true;
         }
     
         public function mmenos() {
-            $this->memoria -= Number($this->valor);
+            $this->memoria -= eval("return ".$this->valor.";");
             $this->editable = true;
         }
+    }
+
     
-        /* public function procesarTeclas(event) {
-            switch (event.key) {
-                case '1':
-                    $this->digitos(1);
-                    break;
-                case '2':
-                    $this->digitos(2);
-                    break;
-                case '3':
-                    $this->digitos(3);
-                    break;
-                case '4':
-                    $this->digitos(4);
-                    break;
-                case '5':
-                    $this->digitos(5);
-                    break;
-                case '6':
-                    $this->digitos(6);
-                    break;
-                case '7':
-                    $this->digitos(7);
-                    break;
-                case '8':
-                    $this->digitos(8);
-                    break;
-                case '9':
-                    $this->digitos(9);
-                    break;
-                case '0':
-                    $this->digitos(0);
-                    break;
-                case '+':
-                    $this->sumar();
-                    break;
-                case '-':
-                    $this->restar();
-                    break;
-                case '*':
-                    $this->multiplicar();
-                    break;
-                case '/':
-                    $this->dividir();
-                    break;
-                case 'Enter':
-                    event.preventDefault();
-                    $this->igual();
-                    break;
-                case 'c':
-                    $this->borrarTodo();
-                    break;
-                case 'Backspace':
-                    $this->borrar();
-                    break;
-                case '.':
-                    $this->punto();
-                    break;
-                case 'r':
-                    $this->raiz();
-                    break;
-                case 'm':
-                    $this->mrc();
-                    break;
-                case 'n':
-                    $this->mmenos();
-                    break;
-                case 'b':
-                    $this->mmas();
-                    break;
-                case 's':
-                    $this->masMenos();
-                    break;
-                case 'p':
-                    $this->porcentaje();
-                    break;
-            }
-    
-        } */
-    
+
+    if(count($_POST)>0) {
+        if(isset($_POST['CE'])) {
+            $calculadora->borrar();
+        }
+        if(isset($_POST['C'])) {
+            $calculadora->borrarTodo();
+        }
+        if(isset($_POST['+/-'])) {
+            $calculadora->masMenos();
+        }
+        if(isset($_POST['√'])) {
+            $calculadora->raiz();
+        }
+        if(isset($_POST['%'])) {
+            $calculadora->porcentaje();
+        }
+        if(isset($_POST['7'])) {
+            $calculadora->digitos('7');
+        }
+        if(isset($_POST['8'])) {
+            $calculadora->digitos('8');
+        }
+        if(isset($_POST['9'])) {
+            $calculadora->digitos('9');
+        }
+        if(isset($_POST['x'])) {
+            $calculadora->multiplicar();
+        }
+        if(isset($_POST['/'])) {
+            $calculadora->dividir();
+        }
+        if(isset($_POST['4'])) {
+            $calculadora->digitos('4');
+        }
+        if(isset($_POST['5'])) {
+            $calculadora->digitos('5');
+        }
+        if(isset($_POST['6'])) {
+            $calculadora->digitos('6');
+        }
+        if(isset($_POST['-'])) {
+            $calculadora->digitos();
+        }
+        if(isset($_POST['MRC'])) {
+            $calculadora->mrc();
+        }
+        if(isset($_POST['1'])) {
+            $calculadora->digitos('1');
+        }
+        if(isset($_POST['2'])) {
+            $calculadora->digitos('2');
+        }
+        if(isset($_POST['3'])) {
+            $calculadora->digitos('3');
+        }
+        if(isset($_POST['+'])) {
+            $calculadora->sumar();
+        }
+        if(isset($_POST['M-'])) {
+            $calculadora->mmenos();
+        }
+        if(isset($_POST['0'])) {
+            $calculadora->digitos('0');
+        }
+        if(isset($_POST['punto'])) {
+            $calculadora->punto();
+        }
+        if(isset($_POST['='])) {
+            $calculadora->igual();
+        }
+        if(isset($_POST['M+'])) {
+            $calculadora->mmas();
+        }        
     }
     
-    $var calculadora = new Calculadora();
-    ?>
-</head>
+    
 
-<body>
+    echo "<body>
     <header>
         <h1>Calculadora Milan</h1>
         <p>Daniel Fernández Bernardino, Software y Estándares para la Web</p>
     </header>
-    <pre>
-        <code>
-            
-        </code>
-    </pre>
 
     <form action='#' method='post'>
 
 
-        <label for="resultado">nata by Milan</label>
-        <input id="resultado" type="text" readonly value="0" />
+        <label for='resultado'>nata by Milan</label>
+        <input id='resultado' type='text' readonly value=",$calculadora->mostrarTexto()," />
 
 
 
-        <input type="button" value="CE" onclick="calculadora.borrar()" />
-        <input type="button" value="C" onclick="calculadora.borrarTodo()" />
-        <input type="button" value="+/-" onclick="calculadora.masMenos()" />
-        <input type="button" value="√" onclick="calculadora.raiz()" />
-        <input type="button" value="%" onclick="calculadora.porcentaje()" />
+        <input type='submit' value='CE' name='CE'/>
+        <input type='submit' value='C' name='C'/>
+        <input type='submit' value='+/-' name='+/-'/>
+        <input type='submit' value='√' name='√'/>
+        <input type='submit' value='%' name='%'/>
 
-        <input type="button" value="7" onclick="calculadora.digitos(7)" />
-        <input type="button" value="8" onclick="calculadora.digitos(8)" />
-        <input type="button" value="9" onclick="calculadora.digitos(9)" />
-        <input type="button" value="x" onclick="calculadora.multiplicar()" />
-        <input type="button" value="/" onclick="calculadora.dividir()" />
+        <input type='submit' value='7' name='7'/>
+        <input type='submit' value='8' name='8'/>
+        <input type='submit' value='9' name='9'/>
+        <input type='submit' value='x' name='x' />
+        <input type='submit' value='/'  name='/'/>
 
-        <input type="button" value="4" onclick="calculadora.digitos(4)" />
-        <input type="button" value="5" onclick="calculadora.digitos(5)" />
-        <input type="button" value="6" onclick="calculadora.digitos(6)" />
-        <input type="button" value="-" onclick="calculadora.restar()" />
-        <input type="button" value="MRC" onclick="calculadora.mrc()" />
+        <input type='submit' value='4' name='4'/>
+        <input type='submit' value='5' name='5'/>
+        <input type='submit' value='6' name='6'/>
+        <input type='submit' value='-' name='-'/>
+        <input type='submit' value='MRC' name='MRC'/>
 
-        <input type="button" value="1" onclick="calculadora.digitos(1)" />
-        <input type="button" value="2" onclick="calculadora.digitos(2)" />
-        <input type="button" value="3" onclick="calculadora.digitos(3)" />
-        <input type="button" value="+" onclick="calculadora.sumar()" />
-        <input type="button" value="M-" onclick="calculadora.mmenos()" />
+        <input type='submit' value='1' name='1'/>
+        <input type='submit' value='2' name='2'/>
+        <input type='submit' value='3' name='3'/>
+        <input type='submit' value='+' name='+'/>
+        <input type='submit' value='M-' name='M-'/>
 
-        <input type="button" value="0" onclick="calculadora.digitos(0)" />
-        <input type="button" value="." onclick="calculadora.punto()" />
-        <input type="button" value="=" onclick="calculadora.igual()" />
-        <input type="button" value="M+" onclick="calculadora.mmas()" />
+        <input type='submit' value='0' name='0'/>
+        <input type='submit' value='.' name='punto'/>
+        <input type='submit' value='=' name='='/>
+        <input type='submit' value='M+' name='M+'/>
 
     </form>
 
 </body>
 
-</html>
+</html>"
+    ?>
