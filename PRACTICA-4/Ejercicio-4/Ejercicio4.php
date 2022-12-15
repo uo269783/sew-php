@@ -8,7 +8,7 @@ class Aplicacion {
     protected $base = "&base=XCU";
     protected $symbols = "&symbols=EUR,USD,GBP";
     protected $gramos = 28.3495;
-    protected $pruebas = '{"success":true,"timestamp":1671102000,"date":"2022-12-15","base":"XCU","rates":{"EUR":0.224865952131692,"GBP":0.19357703437499896,"USD":0.23871874999999873},"unit":"per ounce"}';
+    
     public $euros;
     public $dolares;
     public $libras;
@@ -21,8 +21,8 @@ class Aplicacion {
 
     public function cargar() {
 
-        //$resultado = file_get_contents($this->url + $this->apikey + $this->base + $this->symbols);
-        $json = json_decode($this->pruebas);
+        $resultado = file_get_contents($this->url.$this->apikey.$this->base.$this->symbols);
+        $json = json_decode($resultado);
         
         $this->euros = round($json->rates->EUR, 2);
         $this->dolares = round($json->rates->USD,2);
@@ -32,10 +32,14 @@ class Aplicacion {
     }
 
     public function crearParrafo($val, $moneda) {
+        $gramo = round(($val / $this->gramos),2);
+        $kg = round(($val / $this->gramos * 1000), 2);
+
         $texto = "<h2>".$moneda."</h2>";
         $texto .= "<p>Onza: ".$val."</p>";
-        $texto .= "<p>Gramo: ".($val / $this->gramos)."</p>";
-        $texto .= "<p>Kilogramo: ".($val / $this->gramos * 1000)."</p>";
+        $texto .= "<p>Gramo: ".$gramo."</p>";
+        $texto .= "<p>Kilogramo: ".$kg."</p>";
+
         return $texto;
     }
 }
