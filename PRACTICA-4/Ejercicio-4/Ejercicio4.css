@@ -1,0 +1,41 @@
+/* Daniel Fernández Bernardino*/
+
+/* Especificidad 001 */
+body {
+    background-color: beige;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Especificidad 001 */
+h1 {
+    font-size: 2.25em;
+}
+
+/* Especificidad 001 */
+h2 {
+    font-size: 1.5em;
+}
+
+/* Especificidad 002 */
+table th {
+    border-right: solid black 0.125em;
+    border-bottom: solid black 0.125em;
+    border-collapse: separate;
+    width: fit-content;
+}
+
+/* Especificidad 013 */
+table tr th:last-child {
+    border-right: 0em;
+}
+
+/* Especificidad 013 */
+table tr:last-child th {
+    border-bottom: 0em;
+}
+
+/* Especificidad 001 */
+table {
+    border: solid black 0.25em;
+}
