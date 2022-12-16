@@ -51,6 +51,8 @@
             else {
                 $this->valor .= $value;
             }
+           
+            
         }
     
         public function punto() {
@@ -95,6 +97,7 @@
                 $this->operador = null;
             }
     
+            
         }
     
         public function sumar() {
@@ -173,9 +176,7 @@
             $this->memoria -= eval("return ".$this->valor.";");
             $this->editable = true;
         }
-    }
-
-    
+    }    
 
     if(count($_POST)>0) {
         if(isset($_POST['CE'])) {
@@ -218,7 +219,7 @@
             $calculadora->digitos('6');
         }
         if(isset($_POST['-'])) {
-            $calculadora->digitos();
+            $calculadora->restar();
         }
         if(isset($_POST['MRC'])) {
             $calculadora->mrc();

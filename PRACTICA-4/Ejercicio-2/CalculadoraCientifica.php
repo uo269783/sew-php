@@ -13,11 +13,11 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['calculadora'])) {
-    $_SESSION['calculadora'] = new CalculadoraCientifica();
-    $calculadora = $_SESSION['calculadora'];
+if(!isset($_SESSION['calculadoraCientifica'])) {
+    $_SESSION['calculadoraCientifica'] = new CalculadoraCientifica();
+    $calculadoraCientifica = $_SESSION['calculadoraCientifica'];
 } else {
-    $calculadora = $_SESSION['calculadora'];
+    $calculadoraCientifica = $_SESSION['calculadoraCientifica'];
 }
 
 class Calculadora {
@@ -216,7 +216,7 @@ class CalculadoraCientifica extends Calculadora {
 
     public function digitos($value) {
         if ($this->valor == "0" || $this->editable) {
-            $this->valor = "" + $value;
+            $this->valor = "" . $value;
 
             if ($this->editable) {
                 $this->formula = "";
@@ -452,10 +452,10 @@ class CalculadoraCientifica extends Calculadora {
         $fact = 1;
 
         for ($i = 1; $i <= eval("return ".$this->valor.";"); $i++) {
-            $fact *= i;
+            $fact *= $i;
         }
 
-        $this->valor = "" + fact;
+        $this->valor = "" . $fact;
         $this->mostrarTexto();
     }
 
@@ -498,11 +498,14 @@ class CalculadoraCientifica extends Calculadora {
     }
 
     public function exponencial() {
-        $this->valor = $this->valor + "e+";
+        $this->valor = $this->valor . "e+";
     }
 
     public function mostrarTexto() {
-        return $this->valor;
+        if($this->fe)
+            return "". sprintf('%e', eval("return ".$this->valor.";"));
+        else
+            return $this->valor;
     }
 
     public function mostrarFormula() {
@@ -546,130 +549,133 @@ class CalculadoraCientifica extends Calculadora {
 
 if(count($_POST)>0) {
     if(isset($_POST['DEG'])) {
-        $calculadora->cambiarGrados();
+        $calculadoraCientifica->cambiarGrados();
     }
     if(isset($_POST['HYP'])) {
-        $calculadora->toggleHyp();
+        $calculadoraCientifica->toggleHyp();
     }
     if(isset($_POST['F-E'])) {
-        $calculadora->toggleFE();
+        $calculadoraCientifica->toggleFE();
     }
     if(isset($_POST['MC'])) {
-        $calculadora->memoria0();
+        $calculadoraCientifica->memoria0();
     }
     if(isset($_POST['MR'])) {
-        $calculadora->mrc();
+        $calculadoraCientifica->mrc();
     }
     if(isset($_POST['M+'])) {
-        $calculadora->mmas();
+        $calculadoraCientifica->mmas();
     }
     if(isset($_POST['M-'])) {
-        $calculadora->mmenos();
+        $calculadoraCientifica->mmenos();
     }
     if(isset($_POST['MS'])) {
-        $calculadora->memoriaAlmacenar();
+        $calculadoraCientifica->memoriaAlmacenar();
     }
     if(isset($_POST['x^2'])) {
-        $calculadora->cuadrado();
+        $calculadoraCientifica->cuadrado();
     }
     if(isset($_POST['x^y'])) {
-        $calculadora->potencia();
+        $calculadoraCientifica->potencia();
     }
     if(isset($_POST['sin'])) {
-        $calculadora->trigonometrica('sin');
+        $calculadoraCientifica->trigonometrica('sin');
     }
     if(isset($_POST['cos'])) {
-        $calculadora->trigonometrica('cos');
+        $calculadoraCientifica->trigonometrica('cos');
     }
     if(isset($_POST['tan'])) {
-        $calculadora->trigonometrica('tan');
+        $calculadoraCientifica->trigonometrica('tan');
     }
     if(isset($_POST['√'])) {
-        $calculadora->raiz();
+        $calculadoraCientifica->raiz();
     }
     if(isset($_POST['10^x'])) {
-        $calculadora->potencia10();
+        $calculadoraCientifica->potencia10();
     }
     if(isset($_POST['log'])) {
-        $calculadora->logaritmo();
+        $calculadoraCientifica->logaritmo();
     }
     if(isset($_POST['Exp'])) {
-        $calculadora->exponencial();
+        $calculadoraCientifica->exponencial();
     }
     if(isset($_POST['Mod'])) {
-        $calculadora->modulo();
+        $calculadoraCientifica->modulo();
     }
     if(isset($_POST['shift'])) {
-        $calculadora->shift();
+        $calculadoraCientifica->shift();
     }
     if(isset($_POST['CE'])) {
-        $calculadora->borrar();
+        $calculadoraCientifica->borrar();
     }
     if(isset($_POST['C'])) {
-        $calculadora->borrarTodo();
+        $calculadoraCientifica->borrarTodo();
     }
     if(isset($_POST['←'])) {
-        $calculadora->retroceder();
+        $calculadoraCientifica->retroceder();
     }
     if(isset($_POST['/'])) {
-        $calculadora->dividir();
+        $calculadoraCientifica->dividir();
     }
     if(isset($_POST['π'])) {
-        $calculadora->escribePi();
+        $calculadoraCientifica->escribePi();
     }    
     if(isset($_POST['7'])) {
-        $calculadora->digitos('7');
+        $calculadoraCientifica->digitos('7');
     }  
     if(isset($_POST['8'])) {
-        $calculadora->digitos('8');
+        $calculadoraCientifica->digitos('8');
     }  
     if(isset($_POST['9'])) {
-        $calculadora->digitos('9');
+        $calculadoraCientifica->digitos('9');
     } 
     if(isset($_POST['x'])) {
-        $calculadora->multiplicar();
+        $calculadoraCientifica->multiplicar();
     }    
     if(isset($_POST['n!'])) {
-        $calculadora->factorial();
+        $calculadoraCientifica->factorial();
     } 
     if(isset($_POST['4'])) {
-        $calculadora->digitos('4');
+        $calculadoraCientifica->digitos('4');
     } 
     if(isset($_POST['5'])) {
-        $calculadora->digitos('5');
+        $calculadoraCientifica->digitos('5');
     } 
     if(isset($_POST['6'])) {
-        $calculadora->digitos('6');
+        $calculadoraCientifica->digitos('6');
+    } 
+    if(isset($_POST['-'])) {
+        $calculadoraCientifica->restar();
     } 
     if(isset($_POST['+/-'])) {
-        $calculadora->masMenos();
+        $calculadoraCientifica->masMenos();
     } 
     if(isset($_POST['1'])) {
-        $calculadora->digitos('1');
+        $calculadoraCientifica->digitos('1');
     } 
     if(isset($_POST['2'])) {
-        $calculadora->digitos('2');
+        $calculadoraCientifica->digitos('2');
     } 
     if(isset($_POST['3'])) {
-        $calculadora->digitos('3');
+        $calculadoraCientifica->digitos('3');
     } 
     if(isset($_POST['+'])) {
-        $calculadora->sumar();
+        $calculadoraCientifica->sumar();
     } 
     if(isset($_POST['('])) {
-        $calculadora->digitos('(');
+        $calculadoraCientifica->digitos('(');
     } 
     if(isset($_POST[')'])) {
-        $calculadora->digitos(')');
+        $calculadoraCientifica->digitos(')');
     } 
     if(isset($_POST['0'])) {
-        $calculadora->digitos('0');
+        $calculadoraCientifica->digitos('0');
     } 
-    if(isset($_POST['.'])) {
-        $calculadora->punto();
+    if(isset($_POST['punto'])) {
+        $calculadoraCientifica->punto();
     } 
     if(isset($_POST['='])) {
-        $calculadora->igual();
+        $calculadoraCientifica->igual();
     } 
 }
 
@@ -685,12 +691,12 @@ echo "<body>
     <h2>Windows</h2>
 
     <label for='formula'>Resultado</label>
-    <input id='formula' type='text' readonly value='2'/>
+    <input id='formula' type='text' readonly value='",$calculadoraCientifica->mostrarFormula(),"' />
     <label for='valor'>Valor</label>
-    <input id='valor' type='text' readonly value=",$calculadora->mostrarTexto()," />
+    <input id='valor' type='text' readonly value='",$calculadoraCientifica->mostrarTexto(),"' />
 
     <p>
-        <input type='submit' value=",$calculadora->getGrados()," name='DEG'>
+        <input type='submit' value=",$calculadoraCientifica->getGrados()," name='DEG'>
         <input type='submit' value='HYP' name='HYP'>
         <input type='submit' value='F-E' name='F-E'>
     </p>
@@ -703,13 +709,13 @@ echo "<body>
 
     <input type='submit' value='x^2' name='x^2' />
     <input type='submit' value='x^y' name='x^y' />
-    <input type='submit' value=",$calculadora->getTxt('sin')," name='sin' />
-    <input type='submit' value=",$calculadora->getTxt('cos')," name='cos' />
-    <input type='submit' value=",$calculadora->getTxt('tan')," name='tan' />
+    <input type='submit' value='",$calculadoraCientifica->getTxt('sin'),"' name='sin' />
+    <input type='submit' value='",$calculadoraCientifica->getTxt('cos'),"' name='cos' />
+    <input type='submit' value='",$calculadoraCientifica->getTxt('tan'),"' name='tan' />
 
     <input type='submit' value='√' name='√' />
     <input type='submit' value='10^x' name='10^x' />
-    <input type='submit' value=",$calculadora->getTxt('log')," name='log' />
+    <input type='submit' value='",$calculadoraCientifica->getTxt('log'),"' name='log' />
     <input type='submit' value='Exp' name='Exp' />
     <input type='submit' value='Mod' name='Mod' />
 
@@ -740,7 +746,7 @@ echo "<body>
     <input type='submit' value='(' name='(' />
     <input type='submit' value=')' name=')' />
     <input type='submit' value='0' name='0' />
-    <input type='submit' value='.' name='.' />
+    <input type='submit' value='.' name='punto' />
     <input type='submit' value='=' name='=' />
 
 
