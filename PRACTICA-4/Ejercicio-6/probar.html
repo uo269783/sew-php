@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang='es'>
+
+<head>
+    <meta name='author' content='Daniel Fernández Bernardino' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+
+    <title>Práctica 4 - Ejercicio 6</title>
+    <link rel='stylesheet' type='text/css' href='Ejercicio6.css' />
+</head>
+
+<body>
+    <header>
+        <h1>Pruebas de usabilidad</h1>
+    </header>
+    <nav>
+        <a href='index.php' accesskey='i'>Inicio</a>
+        <a href='insert.php' accesskey='a'>Añadir</a>
+        <a href='select.php' accesskey='s'>Buscar</a>
+        <a href='update.php' accesskey='u'>Modificar</a>
+        <a href='delete.php' accesskey='d'>Eliminar</a>
+        <a href='informe.php' accesskey='r'>Generar informe</a>
+        <a href='importar.php' accesskey='w'>Importar CSV</a>
+        <a href='exportar.php' accesskey='e'>Exportar CSV</a>
+    </nav>
+
+    <p>En este documento se verá una introducción a MySQL utilizando una base de datos con una tabla de pruebas de
+        usabilidad.</p>
+    <section>
+        <h2>
+            Crear base
+        </h2>
+        <p>Para comenzar, cree la base de datos:
+            <input type='submit' name='crearBase' value='Crear base de datos' />
+        </p>
+        <p>A continuación, cree la tabla:
+            <input type='submit' name='crearTabla' value='Crear tabla' />
+        </p>
+    </section>
+
+    <form>
+        <fieldset>
+            <h3>Datos del usuario</h3>
+            <p>
+                <label for='dni'>DNI:</label>
+                <input type='text' id='dni' name='dni' />
+                <label for='nombre'>Nombre:</label>
+                <input type='text' id='nombre' name='nombre' />
+                <label for='apellidos'>Apellidos:</label>
+                <input type='text' id='apellidos' name='apellidos' />
+            </p>
+            <p>
+                <label for='email'>Email:</label>
+                <input type='text' id='email' name='email' />
+                <label for='telefono'>Nº de teléfono:</label>
+                <input type='text' id='telefono' name='telefono' />
+                <label for='edad'>Edad:</label>
+                <input type='number' id='edad' name='edad' />
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <h3>Sexo</h3>
+            <label for='masc'>Masculino</label>
+            <input type='radio' id='masc' name='masc' />
+            <label for='fem'>Femenino</label>
+            <input type='radio' id='fem' name='fem' />
+        </fieldset>
+
+        <fieldset>
+            <h3>Realizada correctamente</h3>
+            <label for='si'>Sí:</label>
+            <input type='radio' id='si' name='si' />
+            <label for='no'>No:</label>
+            <input type='radio' id='no' name='no' />
+        </fieldset>
+
+        <fieldset>
+            <p>
+            <h3>Datos de prueba</h3>
+            <label for='nivel'>Conocimiento informático:</label>
+            <input type='number' id='nivel' name='nivel' min='0' max='10' />
+            <label for='tiempo'>Tiempo:</label>
+            <input type='text' id='tiempo' name='tiempo' />
+            <label for='valoracion'>Valoracion:</label>
+            <input type='number' id='valoracion' name='valoracion' />
+            </p>
+            <p>
+                <label for='comentarios'>Comentarios:</label>
+                <textarea id='comentarios' name='comentarios'></textarea>
+                <label for='propuestas'>Propuestas:</label>
+                <textarea id='propuestas' name='propuestas'></textarea>
+            </p>
+
+        </fieldset>
+
+        <label for='columna'>Filtro a aplicar:</label>
+        <select name='columna' id='columna'>
+            <option value='dni'>DNI</option>
+            <option value='nombre'>Nombre</option>
+            <option value='apellidos'>Apellidos</option>
+            <option value='email'>Email</option>
+            <option value='telefono'>Telefono</option>
+            <option value='edad'>Edad</option>
+            <option value='sexo'>Sexo</option>
+            <option value='nivelInformatica'>Nivel informático</option>
+            <option value='tiempo'>Tiempo</option>
+            <option value='correcto'>Resuelto correctamente</option>
+            <option value='comentarios'>Comentarios</option>
+            <option value='propuestas'>Propuestas</option>
+            <option value='valoracion'>Valoración</option>
+        </select>
+        
+        <label for='valor'>Valor:</label>
+        <input type='text' name='valor' id='valor' placeholder='Valor' />
+
+    </form>
+    <main>

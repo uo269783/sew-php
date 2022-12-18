@@ -1,0 +1,98 @@
+/* Daniel Fernández Bernardino*/
+
+/* Especificidad 001 */
+body {
+    background-color: beige;
+    color: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* Especificidad 001*/
+nav {
+    /* el color de los elementos a contenidos en el nav está especificado en la siguiente regla, nav a*/
+    background-color: #ffffff;
+    margin: 0%;
+    height: fit-content;
+    padding: 0.5%;
+}
+
+/* Especificidad 002*/
+nav a {
+    background-color: black;
+    color: white;
+    font-size: large;
+    text-decoration: none;
+    padding: 0.5%
+}
+
+/* Especificidad 001*/
+dt {
+    font-size: 1.5em;
+}
+
+/* Especificidad 001*/
+dd {
+    font-size: 1em;
+    margin-bottom: 2%;
+}
+
+/* Especificidad 001 */
+h1 {
+    font-size: 2.25em;
+}
+
+/* Especificidad 001 */
+h2 {
+    font-size: 1.5em;
+}
+
+/* Especificidad 002 */
+table th {
+    border-right: solid black 0.125em;
+    border-bottom: solid black 0.125em;
+    border-collapse: separate;
+    width: fit-content;
+}
+
+/* Especificidad 013 */
+table tr th:last-child {
+    border-right: 0em;
+}
+
+/* Especificidad 013 */
+table tr:last-child th {
+    border-bottom: 0em;
+}
+
+/* Especificidad 001 */
+table {
+    border: solid black 0.25em;
+}
+
+/* Especificidad 001*/
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: fit-content;
+}
+
+/* Especificidad 011*/
+fieldset:first-child {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-column-start: 1;
+    grid-column-end: span 2;
+}
+
+/* Especificidad 011*/
+fieldset:last-child {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-column-start: 1;
+    grid-column-end: span 2;
+}
+
+/* Especificidad 001*/
+section {
+    
+}

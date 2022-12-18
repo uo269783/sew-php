@@ -28,6 +28,8 @@ class Calculadora {
     protected $valor;
     protected $memoria;
     protected $resultado;
+    protected $hyp;
+    protected $fe;
 
     public function __construct() {
         $this->anterior = null;
@@ -35,6 +37,8 @@ class Calculadora {
         $this->editable = false;
         $this->valor = "0";
         $this->memoria = 0;
+        $this->hyp = false;
+        $this->fe = false;
 
     }
 
